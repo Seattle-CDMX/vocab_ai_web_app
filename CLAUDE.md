@@ -31,12 +31,31 @@ The application uses LiveKit for real-time video conferencing:
   - `LIVEKIT_API_SECRET` 
   - `LIVEKIT_URL`
   - `NEXT_PUBLIC_LIVEKIT_URL`
+  - `APP_PASSWORD` - Password for app-wide protection
 
 ### API Endpoints
 
 - `GET /api/token?room={name}&username={user}` - Generate access token for room
 - `POST /api/token` - List all active rooms
 - `DELETE /api/token?room={name}` - Delete room and disconnect participants
+- `POST /api/auth` - Authenticate with app password
+
+### Password Protection System
+
+The application implements comprehensive password protection using:
+
+- **Middleware** (`middleware.ts`): Intercepts all requests and redirects unauthenticated users to login
+- **Login Page** (`app/login/page.tsx`): Modern, responsive authentication interface
+- **Auth API** (`app/api/auth/route.ts`): Server-side password validation with secure cookie management
+- **Session Management**: HTTP-only cookies for secure, persistent authentication (7-day expiration)
+- **Deployment Ready**: Works seamlessly with Vercel and other hosting platforms
+
+**Security Features:**
+- Server-side password validation
+- HTTP-only cookies prevent XSS attacks
+- Secure flag in production
+- SameSite protection
+- Complete app lockdown until authenticated
 
 ### Technology Stack
 
@@ -48,6 +67,7 @@ The application uses LiveKit for real-time video conferencing:
 
 ### Key Features
 
+- **Password Protection**: App-wide authentication using middleware and secure cookies
 - Real-time video conferencing with adaptive streaming
 - Room creation and management interface
 - Participant management and room cleanup
